@@ -22,6 +22,7 @@ import app.data.sections.users.User;
 import app.data.sections.users.UserRepository;
 import app.presentation.foundation.notifications.Notifications;
 import app.presentation.foundation.presenter.Presenter;
+import app.presentation.foundation.presenter.SyncView;
 import app.presentation.foundation.presenter.ViewPresenter;
 import app.presentation.foundation.transformations.Transformations;
 import io.reactivex.Observable;
@@ -33,8 +34,9 @@ final class SearchUserPresenter extends Presenter<SearchUserPresenter.View> {
   private User userState;
 
   @Inject public SearchUserPresenter(Transformations transformations,
-      UserRepository userRepository, Notifications notifications) {
-    super(transformations, notifications);
+      UserRepository userRepository, SyncView syncView,
+      Notifications notifications) {
+    super(transformations, notifications, syncView);
     this.userRepository = userRepository;
   }
 

@@ -19,10 +19,14 @@ package app.presentation.foundation;
 import android.app.Activity;
 import android.app.Application;
 import android.support.annotation.Nullable;
+import app.data.foundation.fcm.FcmMessageReceiver;
+import app.data.foundation.fcm.FcmTokenReceiver;
 import app.presentation.foundation.dagger.DaggerPresentationComponent;
 import app.presentation.foundation.dagger.PresentationComponent;
 import app.presentation.foundation.dagger.PresentationModule;
+import app.presentation.foundation.fcm.FcmReceiverBackground;
 import com.squareup.leakcanary.LeakCanary;
+import rx_fcm.internal.RxFcm;
 
 /**
  * Custom Application
@@ -42,12 +46,18 @@ public final class BaseApp extends Application {
     LeakCanary.install(this);
     AppCare.YesSir.takeCareOn(this);
     initDaggerComponent();
+    initGcm();
   }
 
   private void initDaggerComponent() {
     presentationComponent = DaggerPresentationComponent.builder()
         .presentationModule(new PresentationModule(this))
         .build();
+  }
+
+  private void initGcm() {
+    RxFcm.Notifications.init(this, FcmMessageReceiver.class, FcmReceiverBackground.class);
+    RxFcm.Notifications.onRefreshToken(FcmTokenReceiver.class);
   }
 
   /**

@@ -17,6 +17,7 @@
 package app.presentation.sections.launch;
 
 import app.presentation.foundation.notifications.Notifications;
+import app.presentation.foundation.presenter.SyncView;
 import app.presentation.foundation.presenter.ViewPresenter;
 import app.presentation.foundation.transformations.Transformations;
 import app.presentation.sections.TransformationsMock;
@@ -39,10 +40,11 @@ public final class LaunchPresenterTest {
   @Mock LaunchWireframe wireframe;
   @Mock ViewPresenter view;
   @Mock Notifications notifications;
+  @Mock SyncView syncView;
 
   @Before public void init() {
     launchPresenterUT = new LaunchPresenter(transformations, wireframe,
-        notifications);
+        notifications, syncView);
   }
 
   @Test public void Verify_OnBindView() {

@@ -17,10 +17,12 @@
 package app.presentation.sections.users.list;
 
 import android.support.annotation.VisibleForTesting;
+import app.data.foundation.fcm.FcmMessageReceiver;
 import app.data.sections.users.User;
 import app.data.sections.users.UserRepository;
 import app.presentation.foundation.notifications.Notifications;
 import app.presentation.foundation.presenter.Presenter;
+import app.presentation.foundation.presenter.SyncView;
 import app.presentation.foundation.presenter.ViewPresenter;
 import app.presentation.foundation.transformations.Transformations;
 import app.presentation.sections.users.UsersWireframe;
@@ -29,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import miguelbcr.ok_adapters.recycler_view.Pager;
+import rx_fcm.Message;
 
 final class UsersPresenter extends Presenter<UsersPresenter.View> {
   private final UserRepository repository;
@@ -37,8 +40,8 @@ final class UsersPresenter extends Presenter<UsersPresenter.View> {
 
   @Inject UsersPresenter(Transformations transformations,
       UserRepository repository, UsersWireframe wireframe,
-      Notifications notifications) {
-    super(transformations, notifications);
+      SyncView syncView, Notifications notifications) {
+    super(transformations, notifications, syncView);
     this.repository = repository;
     this.usersState = new ArrayList<>();
     this.wireframe = wireframe;
@@ -80,6 +83,20 @@ final class UsersPresenter extends Presenter<UsersPresenter.View> {
           usersState.addAll(users);
           view.hideLoadingOnRefreshList();
         });
+  }
+
+  @Override public void onTargetNotification(Observable<Message> ignore) {
+    repository.getRecentUser()
+        .compose(transformations.safely())
+        .compose(transformations.reportOnSnackBar())
+        .subscribe(user -> {
+          usersState.add(0, user);
+          view.showNewUser(user);
+        });
+  }
+
+  @Override public boolean matchesTarget(String key) {
+    return FcmMessageReceiver.USERS_FCM.equals(key);
   }
 
   interface View extends ViewPresenter {

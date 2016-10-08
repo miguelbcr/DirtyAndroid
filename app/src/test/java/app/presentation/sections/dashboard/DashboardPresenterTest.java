@@ -17,6 +17,7 @@
 package app.presentation.sections.dashboard;
 
 import app.presentation.foundation.notifications.Notifications;
+import app.presentation.foundation.presenter.SyncView;
 import app.presentation.foundation.transformations.Transformations;
 import app.presentation.foundation.views.FragmentsManager;
 import app.presentation.sections.TransformationsMock;
@@ -42,13 +43,14 @@ public final class DashboardPresenterTest {
   Transformations transformations = Mockito.spy(TransformationsMock.class);
   @Mock DashboardPresenter.View view;
   @Mock Notifications notifications;
+  @Mock SyncView syncView;
   @Mock FragmentsManager fragmentsManager;
 
   private DashboardPresenter dashboardPresenterUT;
 
   @Before public void init() {
     dashboardPresenterUT = new DashboardPresenter(transformations,
-        notifications, fragmentsManager);
+        notifications, syncView, null, fragmentsManager);
     when(view.clicksItemSelected()).thenReturn(Observable.never());
   }
 
