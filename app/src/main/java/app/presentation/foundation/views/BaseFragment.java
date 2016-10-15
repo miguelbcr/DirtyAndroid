@@ -53,9 +53,7 @@ public abstract class BaseFragment<P extends Presenter> extends Rx2Fragment
     View view = null;
 
     //Get the value ResLayout from the annotation if provided.
-    LayoutResFragment layoutResAnnotation = this.getClass()
-        .getAnnotation(LayoutResFragment.class);
-
+    LayoutResFragment layoutResAnnotation = this.getClass().getAnnotation(LayoutResFragment.class);
     if (layoutResAnnotation != null) {
       view = inflater.inflate(layoutResAnnotation.value(), container, false);
     }
@@ -93,6 +91,13 @@ public abstract class BaseFragment<P extends Presenter> extends Rx2Fragment
   @Override public void onResume() {
     super.onResume();
     presenter.onResumeView();
+  }
+
+  /**
+   * Delegate responsibility to the presenter.
+   */
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    return presenter.onOptionsItemSelected(item);
   }
 
   /**

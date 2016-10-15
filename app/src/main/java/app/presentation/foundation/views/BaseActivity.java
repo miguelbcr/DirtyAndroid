@@ -18,6 +18,7 @@ package app.presentation.foundation.views;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.MenuItem;
 import app.presentation.foundation.BaseApp;
 import app.presentation.foundation.dagger.PresentationComponent;
 import app.presentation.foundation.presenter.Presenter;
@@ -47,9 +48,10 @@ public abstract class BaseActivity<P extends Presenter> extends Rx2AppCompatActi
     super.onCreate(savedInstanceState);
 
     //Get the value ResLayout from the annotation if provided.
-    LayoutResActivity layoutRes = this.getClass()
-        .getAnnotation(LayoutResActivity.class);
-    if (layoutRes != null) setContentView(layoutRes.value());
+    LayoutResActivity layoutRes = this.getClass().getAnnotation(LayoutResActivity.class);
+    if (layoutRes != null) {
+      setContentView(layoutRes.value());
+    }
 
     //Inject the views with butter-knife.
     unbinder = ButterKnife.bind(this);
@@ -79,6 +81,13 @@ public abstract class BaseActivity<P extends Presenter> extends Rx2AppCompatActi
   @Override public void onResume() {
     super.onResume();
     presenter.onResumeView();
+  }
+
+  /**
+   * Delegate responsibility to the presenter.
+   */
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    return presenter.onOptionsItemSelected(item);
   }
 
   /**
