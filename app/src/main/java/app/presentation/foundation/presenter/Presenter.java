@@ -16,9 +16,6 @@
 
 package app.presentation.foundation.presenter;
 
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import app.presentation.foundation.notifications.Notifications;
 import app.presentation.foundation.transformations.Transformations;
 import io.reactivex.Observable;

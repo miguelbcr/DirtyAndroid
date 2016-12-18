@@ -56,8 +56,8 @@ public final class BaseApp extends Application {
   }
 
   private void initGcm() {
-    RxFcm.Notifications.init(this, FcmMessageReceiver.class, FcmReceiverBackground.class);
-    RxFcm.Notifications.onRefreshToken(FcmTokenReceiver.class);
+    RxFcm.Notifications.init(this, new FcmMessageReceiver(), new FcmReceiverBackground());
+    RxFcm.Notifications.onRefreshToken(new FcmTokenReceiver());
   }
 
   /**

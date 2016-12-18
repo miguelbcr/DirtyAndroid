@@ -26,11 +26,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import app.presentation.foundation.rx_bindings_interop.RxNavigationView;
 import app.presentation.foundation.views.BaseActivity;
 import app.presentation.foundation.views.FragmentsManager;
 import app.presentation.foundation.views.LayoutResActivity;
 import butterknife.BindView;
-import app.presentation.foundation.rx_bindings_interop.RxNavigationView;
 import io.reactivex.Observable;
 import org.base_app_android.R;
 
